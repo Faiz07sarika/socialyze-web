@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konfigurasikan Paket Anda - Socialyze Agency</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="checkout-page-body">
+
+    <!-- TOP NAVIGATION NAVBAR -->
+    <header class="checkout-nav">
+        <div class="checkout-nav-container">
+            <a href="index.html" class="chk-brand">
+                <img src="LOGOAGENCY.png" alt="Socialyze Agency">
+                <span>Socialyze Agency</span>
+            </a>
+            <a href="index.html#paket" class="btn-back-home">
+                ← Kembali ke Beranda
+            </a>
+        </div>
+    </header>
+
+    <!-- MAIN CHECKOUT SECTION -->
+    <main class="checkout-main-content">
+        <div class="checkout-container">
+
+            <div class="checkout-grid">
+
+                <!-- LEFT COLUMN: PAYMENT METHOD & BILLING FORM -->
+                <div class="chk-left-panel">
+
+                    <div class="chk-header-title">
+                        <h2>Konfigurasikan paket Anda</h2>
+                        <p>Pilih metode pembayaran E-Wallet dan lengkapi data penagihan Anda.</p>
+                    </div>
+
+                    <!-- E-WALLET PAYMENT METHOD SELECTOR -->
+                    <div class="chk-block">
+                        <label class="chk-block-label">Pilih Metode Pembayaran</label>
+
+                        <!-- Quick Pay Row -->
+                        <div class="quick-pay-row">
+                            <button type="button" class="quick-pay-btn" onclick="selectPaymentMethod('gopay')">
+                                🟢 GoPay
+                            </button>
+                            <button type="button" class="quick-pay-btn" onclick="selectPaymentMethod('dana')">
+                                🔵 DANA
+                            </button>
+                        </div>
+
+                        <div class="divider-line"><span>ATAU PILIH METODE LAIN</span></div>
+
+                        <!-- Payment Method Grid -->
+                        <div class="payment-methods-grid">
+                            <div class="payment-opt-card selected" data-method="gopay">
+                                <span class="opt-icon">🟢</span>
+                                <span class="opt-name">GoPay</span>
+                            </div>
+                            <div class="payment-opt-card" data-method="dana">
+                                <span class="opt-icon">🔵</span>
+                                <span class="opt-name">DANA</span>
+                            </div>
+                            <div class="payment-opt-card" data-method="ovo">
+                                <span class="opt-icon">🟣</span>
+                                <span class="opt-name">OVO</span>
+                            </div>
+                            <div class="payment-opt-card" data-method="shopeepay">
+                                <span class="opt-icon">🟠</span>
+                                <span class="opt-name">ShopeePay</span>
+                            </div>
+                            <div class="payment-opt-card" data-method="qris">
+                                <span class="opt-icon">📲</span>
+                                <span class="opt-name">QRIS Instant</span>
+                            </div>
+                            <div class="payment-opt-card" data-method="kartu">
+                                <span class="opt-icon">💳</span>
+                                <span class="opt-name">Transfer Bank</span>
+                            </div>
+                        </div>
+
+                        <div id="paymentMethodInstruction" class="payment-instruction-box">
+                            <p>Setelah mengeklik tombol Bayar Sekarang, jendela pembayaran aman Midtrans akan terbuka untuk membayar via <strong>GoPay</strong>.</p>
+                        </div>
+                    </div>
+
+                    <!-- BILLING DETAILS FORM -->
+                    <form id="checkoutPageForm" class="chk-form-block"
+                        onsubmit="event.preventDefault(); processCheckoutPayment();">
+                        <div class="chk-block-label">Data Pemesan & Penagihan</div>
+
+                        <div class="input-group">
+                            <label for="custName">Nama lengkap</label>
+                            <input type="text" id="custName" value="" placeholder="Nama Lengkap Anda" required />
+                        </div>
+
+                        <div class="input-group">
+                            <label for="custEmail">Alamat email</label>
+                            <input type="email" id="custEmail" value="" placeholder="Alamat Email Anda" required />
+                        </div>
+
+                        <div class="input-group">
+                            <label for="custPhone">Nomor WhatsApp / HP</label>
+                            <input type="tel" id="custPhone" value="" placeholder="08xxxxxxxxxx" required />
+                        </div>
+
+                        <button type="submit" class="btn-checkout-submit">
+                            ⚡ Bayar Sekarang
+                        </button>
+                    </form>
+
+                </div>
+
+
+                <!-- RIGHT COLUMN: SUMMARY CARD (CHATGTP STYLE) -->
+                <div class="chk-right-panel">
+                    <div class="chk-summary-card">
+
+                        <h3 id="summaryTitle" class="sum-title">Paket Gold</h3>
+                        <p id="summarySubtitle" class="sum-subtitle">Full Creative & Digital Marketing Growth</p>
+
+                        <div class="sum-features-header">FITUR UNGGULAN</div>
+                        <ul id="summaryFeatures" class="sum-feature-list">
+                            <!-- Populated dynamically -->
+                        </ul>
+
+                        <div class="sum-price-table">
+                            <div class="sum-row total-highlight">
+                                <strong>Total Yang Harus Dibayar</strong>
+                                <strong id="summaryTotal">Rp 2.500.000</strong>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn-checkout-submit" style="margin-top: 20px;"
+                            onclick="processCheckoutPayment()">
+                            Bayar Sekarang
+                        </button>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+
+    <!-- STATUS PEMBAYARAN (berhasil / menunggu / gagal / kedaluwarsa) -->
+    <div id="statusModal" class="modal-backdrop">
+        <div class="qris-simulator-card" style="max-width: 420px;">
+            <div id="statusIcon" style="font-size: 3.5rem; margin-bottom: 12px;">⏳</div>
+            <h2 id="statusTitle"
+                style="font-size: 1.6rem; color: var(--merah, #6b0b0d); font-weight: 800; margin-bottom: 8px;">
+                Memeriksa pembayaran...</h2>
+            <p id="statusMessage" style="font-size: 0.88rem; color: #475569; line-height: 1.5; margin-bottom: 20px;"></p>
+
+            <div
+                style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; margin-bottom: 24px; text-align: left; font-size: 0.84rem; color: #334155;">
+                <div style="display:flex; justify-content: space-between; margin-bottom:6px;">
+                    <span style="color:#64748b;">Order ID:</span>
+                    <strong id="statusOrderId" style="color:var(--merah, #6b0b0d);">-</strong>
+                </div>
+                <div style="display:flex; justify-content: space-between;">
+                    <span style="color:#64748b;">Status:</span>
+                    <strong id="statusBadge">-</strong>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <a id="statusWaLink"
+                    href="https://wa.me/6281234567890?text=Halo%20Admin%20Socialyze,%20saya%20sudah%20melakukan%20pembayaran"
+                    target="_blank" class="btn-simulate-pay"
+                    style="text-decoration: none; display: block; text-align: center;">
+                    💬 Konfirmasi ke WhatsApp Admin
+                </a>
+                <button type="button" class="btn-back-home" onclick="closeAllModals()"
+                    style="display: block; text-align: center; padding: 12px; cursor: pointer;">
+                    Tutup
+                </button>
+                <a href="index.html" class="btn-back-home" style="display: block; text-align: center; padding: 12px;">
+                    Kembali ke Beranda
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="checkout.js"></script>
+
+</body>
+
+</html>
